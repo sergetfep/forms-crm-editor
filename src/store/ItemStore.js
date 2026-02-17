@@ -1,8 +1,7 @@
-const { nanoid } = require('nanoid');
-
 class ItemStore {
   constructor(initial = []) {
     this.items = [...initial];
+    this.nextId = 1;
   }
 
   list() {
@@ -10,7 +9,7 @@ class ItemStore {
   }
 
   add({ name, price }) {
-    const item = { id: nanoid(), name, price };
+    const item = { id: String(this.nextId++), name, price };
     this.items.push(item);
     return item;
   }

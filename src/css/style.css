@@ -1,0 +1,212 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
+  margin: 0;
+  padding: 24px;
+  background: #f5f6f8;
+  color: #1b1f24;
+}
+
+#app {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+a {
+  color: inherit;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.btn-add {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #cfd6e4;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.btn-add:hover {
+  background: #fafbff;
+}
+
+.crm-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border: 1px solid #cfd6e4;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.crm-table th,
+.crm-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #eef1f6;
+  text-align: left;
+}
+
+.crm-table th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #5b6678;
+  background: #fafbff;
+}
+
+.crm-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.cell-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit,
+.btn-del {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #cfd6e4;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.btn-edit:hover,
+.btn-del:hover {
+  background: #fafbff;
+}
+
+.modal-backdrop,
+.confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+}
+
+.modal,
+.confirm {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(520px, calc(100% - 24px));
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid #e6eaf2;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  padding: 18px;
+}
+
+.modal h2,
+.confirm h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.modal input {
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #cfd6e4;
+  padding: 0 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.modal input:focus {
+  border-color: #8aa2ff;
+  box-shadow: 0 0 0 3px rgba(138, 162, 255, 0.25);
+}
+
+.error {
+  font-size: 12px;
+  color: #b42318;
+}
+
+.modal-actions,
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #cfd6e4;
+  padding: 0 14px;
+  font-size: 14px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.btn-primary {
+  border-color: #8aa2ff;
+  background: #8aa2ff;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  filter: brightness(0.97);
+}
+
+.btn-secondary:hover {
+  background: #fafbff;
+}
+
+.btn-danger {
+  border-color: #ef4444;
+  background: #ef4444;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  filter: brightness(0.97);
+}
+
+.confirm p {
+  margin: 6px 0 0;
+  color: #3b4351;
+}

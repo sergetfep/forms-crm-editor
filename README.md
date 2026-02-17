@@ -1,4 +1,4 @@
-[![CI](../../actions/workflows/pages.yml/badge.svg)](../../actions/workflows/pages.yml)
+[![CI](https://github.com/sergetfep/forms-crm-editor/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/sergetfep/forms-crm-editor/actions/workflows/pages.yml)
 
 Github Pages: https://sergetfep.github.io/forms-crm-editor/
 

@@ -1,8 +1,8 @@
-const ItemStore = require('../store/ItemStore');
-const { renderTable } = require('../ui/render');
-const { renderModal } = require('../ui/modal');
-const { renderConfirm } = require('../ui/confirm');
-const { validateName, parseAndValidatePrice } = require('../ui/validators');
+const ItemStore = require("../store/ItemStore");
+const { renderTable } = require("../ui/render");
+const { renderModal } = require("../ui/modal");
+const { renderConfirm } = require("../ui/confirm");
+const { validateName, parseAndValidatePrice } = require("../ui/validators");
 
 class App {
   constructor(root) {
@@ -19,9 +19,9 @@ class App {
   initialModalState() {
     return {
       open: false,
-      mode: 'add',
+      mode: "add",
       editingId: null,
-      form: { name: '', price: '' },
+      form: { name: "", price: "" },
       errors: {},
       touched: { name: false, price: false },
     };
@@ -30,43 +30,44 @@ class App {
   start() {
     this.renderAll();
 
-    this.addBtn.addEventListener('click', () => {
+    this.addBtn.addEventListener("click", () => {
       this.state = this.initialModalState();
       this.state.open = true;
       this.renderModal();
     });
 
-    this.tableHost.addEventListener('click', (e) => {
-      const btn = e.target.closest('button[data-action]');
+    this.tableHost.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-action]");
       if (!btn) return;
-      const tr = btn.closest('tr[data-id]');
+      const tr = btn.closest("tr[data-id]");
       const id = tr?.dataset.id;
       if (!id) return;
 
-      if (btn.dataset.action === 'edit') this.openEdit(id);
-      if (btn.dataset.action === 'delete') this.openConfirm(id);
+      if (btn.dataset.action === "edit") this.openEdit(id);
+      if (btn.dataset.action === "delete") this.openConfirm(id);
     });
 
-    this.modalHost.addEventListener('click', (e) => {
-      if (e.target?.dataset.role === 'backdrop') this.closeModal();
-      if (e.target?.dataset.role === 'cancel') this.closeModal();
+    this.modalHost.addEventListener("click", (e) => {
+      if (e.target?.dataset.role === "backdrop") this.closeModal();
+      if (e.target?.dataset.role === "cancel") this.closeModal();
     });
 
-    this.modalHost.addEventListener('input', (e) => {
+    this.modalHost.addEventListener("input", (e) => {
       const input = e.target;
       if (!(input instanceof HTMLInputElement)) return;
-      if (!['name', 'price'].includes(input.name)) return;
+      if (!["name", "price"].includes(input.name)) return;
 
       this.state.form[input.name] = input.value;
       this.state.touched[input.name] = true;
+
       this.validateForm();
-      this.renderModal();
+      this.updateModalErrors();
     });
 
-    this.modalHost.addEventListener('submit', (e) => {
+    this.modalHost.addEventListener("submit", (e) => {
       const formEl = e.target;
       if (!(formEl instanceof HTMLFormElement)) return;
-      if (formEl.dataset.role !== 'form') return;
+      if (formEl.dataset.role !== "form") return;
 
       e.preventDefault();
       this.state.touched = { name: true, price: true };
@@ -77,7 +78,7 @@ class App {
       const name = this.state.form.name.trim();
       const { price } = parseAndValidatePrice(this.state.form.price);
 
-      if (this.state.mode === 'add') {
+      if (this.state.mode === "add") {
         this.store.add({ name, price });
       } else {
         this.store.update(this.state.editingId, { name, price });
@@ -87,10 +88,10 @@ class App {
       this.renderTable();
     });
 
-    this.confirmHost.addEventListener('click', (e) => {
-      if (e.target?.dataset.role === 'confirm-backdrop') this.closeConfirm();
-      if (e.target?.dataset.role === 'confirm-cancel') this.closeConfirm();
-      if (e.target?.dataset.role === 'confirm-ok') {
+    this.confirmHost.addEventListener("click", (e) => {
+      if (e.target?.dataset.role === "confirm-backdrop") this.closeConfirm();
+      if (e.target?.dataset.role === "confirm-cancel") this.closeConfirm();
+      if (e.target?.dataset.role === "confirm-ok") {
         if (this.confirmState.id) {
           this.store.remove(this.confirmState.id);
           this.renderTable();
@@ -112,12 +113,32 @@ class App {
     return Object.keys(errors).length === 0;
   }
 
+  updateModalErrors() {
+    const nameErrEl = this.modalHost.querySelector('[data-role="error-name"]');
+    const priceErrEl = this.modalHost.querySelector(
+      '[data-role="error-price"]',
+    );
+
+    if (nameErrEl) {
+      nameErrEl.textContent =
+        this.state.touched.name && this.state.errors.name
+          ? this.state.errors.name
+          : "";
+    }
+    if (priceErrEl) {
+      priceErrEl.textContent =
+        this.state.touched.price && this.state.errors.price
+          ? this.state.errors.price
+          : "";
+    }
+  }
+
   openEdit(id) {
     const item = this.store.getById(id);
     if (!item) return;
     this.state = this.initialModalState();
     this.state.open = true;
-    this.state.mode = 'edit';
+    this.state.mode = "edit";
     this.state.editingId = id;
     this.state.form = { name: item.name, price: String(item.price) };
     this.renderModal();
@@ -157,8 +178,8 @@ class App {
   renderConfirm(item) {
     renderConfirm(this.confirmHost, {
       open: this.confirmState.open,
-      title: 'Удалить товар',
-      text: item ? `Удалить "${item.name}"?` : '',
+      title: "Удалить товар",
+      text: item ? `Удалить "${item.name}"?` : "",
     });
   }
 

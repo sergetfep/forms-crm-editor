@@ -79,14 +79,32 @@ describe('CRM e2e', () => {
     await page.waitForSelector('tr[data-id]');
   }
 
+  async function getErrors(page) {
+    const nameErr = await page.$eval('[data-role="error-name"]', (el) => el.textContent.trim());
+    const priceErr = await page.$eval('[data-role="error-price"]', (el) => el.textContent.trim());
+    return { nameErr, priceErr };
+  }
+
+  async function expectNoErrors(page) {
+    const { nameErr, priceErr } = await getErrors(page);
+    expect(nameErr).toBe('');
+    expect(priceErr).toBe('');
+  }
+
   test('add validates and creates row', async () => {
     await withPage(async (page) => {
       await page.click('[data-role="add"]');
-      const err0 = await page.$('.error');
-      expect(err0).toBeNull();
+      await page.waitForSelector('input[name="name"]');
+
+      await expectNoErrors(page);
 
       await page.click('[data-role="save"]');
-      await page.waitForSelector('.error');
+
+      await page.waitForFunction(() => {
+        const a = document.querySelector('[data-role="error-name"]')?.textContent?.trim() || '';
+        const b = document.querySelector('[data-role="error-price"]')?.textContent?.trim() || '';
+        return a.length > 0 || b.length > 0;
+      });
 
       await page.type('input[name="name"]', 'Phone');
       await page.type('input[name="price"]', '10');
@@ -113,8 +131,9 @@ describe('CRM e2e', () => {
       const nameVal = await page.$eval('input[name="name"]', (el) => el.value);
       expect(nameVal).toBe('');
 
-      const err = await page.$('.error');
-      expect(err).toBeNull();
+      await expectNoErrors(page);
+
+      await page.click('[data-role="cancel"]');
     });
   }, 60000);
 
